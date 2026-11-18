@@ -728,10 +728,13 @@ function fullRender() {
 }
 
 // ───────── Load existing + SSE ─────────
-fetch('/api/messages').then(r=>r.json()).then(data => {
-  allMessages = data;
-  fullRender();
-});
+function loadMsgs() {
+  fetch('/api/messages').then(r=>r.json()).then(data => {
+    if (data.length !== allMessages.length) { allMessages = data; fullRender(); }
+  }).catch(()=>{});
+}
+loadMsgs();
+setInterval(loadMsgs, 5000);
 
 const es = new EventSource('/events');
 es.onmessage = (e) => {
