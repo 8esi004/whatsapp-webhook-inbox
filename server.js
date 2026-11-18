@@ -473,7 +473,7 @@ function avatarColor(phone) {
 }
 function initials(name) {
   if (!name) return '?';
-  const p = name.trim().split(/\s+/);
+  const p = name.trim().split(/ +/);
   if (p.length >= 2) return (p[0][0] + p[p.length-1][0]).toUpperCase();
   return name.slice(0,2).toUpperCase();
 }
@@ -563,7 +563,7 @@ function renderSidebar() {
     const color = avatarColor(conv.phone);
     const ini = initials(conv.name);
     const isActive = conv.phone === activePhone;
-    return '<div class="conv-item' + (isActive?' active':'') + '" onclick="selectConv(\'' + esc(conv.phone) + '\')">'
+    return '<div class="conv-item' + (isActive?' active':'') + '" onclick="selectConv(&quot;' + conv.phone + '&quot;)">'
       + '<div class="conv-avatar" style="background:' + color + '">' + ini + '</div>'
       + '<div class="conv-info">'
       + '<div class="conv-name">' + escHtml(conv.name) + '</div>'
@@ -598,7 +598,7 @@ function renderChat() {
     '<div class="avatar" style="background:' + color + '">' + ini + '</div>'
     + '<div class="info"><div class="name">' + escHtml(conv.name) + '</div>'
     + '<div class="phone">+' + conv.phone + '</div></div>'
-    + '<div class="hactions"><button title="Copy number" onclick="navigator.clipboard.writeText(\'+' + conv.phone + '\');showToast(\'📋 Number copied!\')">📋</button></div>';
+    + '<div class="hactions"><button title="Copy number" onclick="navigator.clipboard.writeText(&quot;+' + conv.phone + '&quot;);showToast(&quot;Copied&quot;)">📋</button></div>';
 
   // Messages
   const msgs = conv.messages;
@@ -700,7 +700,7 @@ function escHtml(s) {
   if (!s) return '';
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-function esc(s) { return String(s).replace(/'/g,"\\'"}
+function esc(s) { return String(s); }
 function fmtTime(ts) {
   if (!ts) return '';
   try {
